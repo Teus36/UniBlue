@@ -1,22 +1,32 @@
-print("==" * 21)
-print("|  SISTEMA DE GESTÃO DESPESAS UNIBLUE  |")
-print("==" * 21)
-print("|  1. ESTUDANTES                         |")
-print("|  2. GASTOS                             |")
-print("|  3. CONTAS                             |")
-print("|  4. RELATÓRIOS                         |")
-print("|  5. SOBRE O SISTEMA                    |")
-print("|  6. SAIR                               |")
-print("==" * 21)
+import os
+import time
+
+def limpar_tela():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 estudantes = {}
+gastos = {}
 
 while True:
-    opcao = int(input("SELECIONE UMA DAS OPÇÕES ACIMA: "))
-    voltar = False
+    limpar_tela()
 
-    while True: 
-        if opcao == 1:
+    print("==" * 21)
+    print("|  SISTEMA DE GESTÃO DESPESAS UNIBLUE    |")
+    print("==" * 21)
+    print("|  1. ESTUDANTES                         |")
+    print("|  2. GASTOS                             |")
+    print("|  3. CONTAS                             |")
+    print("|  4. RELATÓRIOS                         |")
+    print("|  5. SOBRE O SISTEMA                    |")
+    print("|  6. SAIR                               |")
+    print("==" * 21)
+
+    opcao = int(input("SELECIONE UMA DAS OPÇÕES ACIMA: "))
+
+    if opcao == 1:
+        while True: 
+            limpar_tela()
+
             print("==" * 21)
             print("|          MÓDULO DOS ESTUDANTES         |")
             print("==" * 21)
@@ -27,116 +37,155 @@ while True:
             print("|  5. VOLTAR                             |")
             print("==" * 21)
             print()
-            print()
 
             opcao_e = int(input("SELECIONE UMA DAS OPÇÕES ACIMA: "))
 
             if opcao_e == 1:
+                limpar_tela()   
+
                 nome_e = str(input("Nome: "))
                 data_nasc_e = str(input("Data de Nascimento: "))
                 cpf_e = str(input("CPF: "))
                 telefone_e = str(input("Número de Telefone: "))
                 email_e = str(input("Email: "))
 
-                while len(cpf_e) !=11:
-                    cpf_e = str(input("CPF: "))
+                while not cpf_e.isdigit() or len(cpf_e) != 11:
+                    cpf_e = input("CPF inválido. Digite novamente: ")
+
+                while not telefone_e.isdigit() or len(telefone_e) != 9:
+                    telefone_e = str(input("Número de Telefone inválido. Digite novamente: "))   
                     
-                estudantes = {cpf_e: [nome_e, data_nasc_e, telefone_e, email_e]}
-                print(f"Estudante cadastrado: {estudantes}")
+                if cpf_e in estudantes:
+                    print("CPF já cadastrado!")
+                    time.sleep(2)
+                else:
+                    estudantes[cpf_e] = [nome_e, data_nasc_e, telefone_e, email_e]
+                    print("Estudante cadastrado com sucesso!")
+                    time.sleep(2)
 
-            if opcao_e == 2:
-                for cpf, dados in estudantes.items():
-                    print("=" * 42)
-                    print(f"| {'DADOS DO ESTUDANTE':^38} |")
-                    print("=" * 42)
+            elif opcao_e == 2:
+                limpar_tela()
 
-                    print(f"| CPF: {cpf:<33} |")
-                    print(f"| Nome: {dados[0][:30]:<32} |")
-                    print(f"| Nascimento: {dados[1]:<26} |")
-                    print(f"| Telefone: {dados[2]:<28} |")
-                    print(f"| Email: {dados[3]:<31} |")
+                if not estudantes:
+                    print("Nenhum estudante cadastrado!")
 
-                    print("=" * 42)
+                else:
+                    for cpf, dados in estudantes.items():
+                        print("=" * 42)
+                        print(f"| {'DADOS DO ESTUDANTE':^38} |")
+                        print("=" * 42)
+
+                        print(f"| CPF: {cpf:<33} |")
+                        print(f"| Nome: {dados[0][:30]:<32} |")
+                        print(f"| Nascimento: {dados[1]:<26} |")
+                        print(f"| Telefone: {dados[2]:<28} |")
+                        print(f"| Email: {dados[3]:<31} |")
+
+                        print("=" * 42)
                     
-            if opcao_e == 3: 
-                atualizar_cadastro_e = str(input("Informe o CPF do usuário: "))
-                voltar = False
-                largura = 60
+                    seguir = input("Pressione ENTER para continuar...")
+                    
+            elif opcao_e == 3: 
+                limpar_tela()   
 
-                while True:
-                    for chave, valor in estudantes.items():
-                        if atualizar_cadastro_e == chave:
-                            print("==" * 21)
-                            print("|        ATUALIZAÇÃO DE CADASTRO         |")
-                            print("==" * 21)
-                            print("|  1. NOME                               |")
-                            print("|  2. DATA DE NASCIMENTO                 |")
-                            print("|  3. CPF                                |")
-                            print("|  4. TELEFONE                           |")
-                            print("|  5. EMAIL                              |")
-                            print("|  6. ATUALIZAR TODOS OS DADOS           |")
-                            print("|  7. VOLTAR                             |")
-                            print("==" * 21)
-                            print()
+                cpf_att_e = str(input("Informe o CPF do usuário: "))
 
-                            opcao_att = int(input("Qual informação deseja atualizar? "))
+                if cpf_att_e in estudantes:
+                    print("==" * 21)
+                    print("|        ATUALIZAÇÃO DE CADASTRO         |")
+                    print("==" * 21)
+                    print("|  1. NOME                               |")
+                    print("|  2. DATA DE NASCIMENTO                 |")
+                    print("|  3. CPF                                |")
+                    print("|  4. TELEFONE                           |")
+                    print("|  5. EMAIL                              |")
+                    print("|  6. ATUALIZAR TODOS OS DADOS           |")
+                    print("==" * 21)
 
-                            if opcao_att == 1:
-                                nome_e = str(input("Nome: "))
-                                estudantes[chave][0] = nome_e
-                            elif opcao_att == 2:
-                                data_nasc_e = str(input("Data de Nascimento: "))
-                                estudantes[chave][1] = data_nasc_e
-                            elif opcao_att == 3:
-                                cpf_e = str(input("CPF: "))
-                                estudantes[chave][2] = cpf_e
-                            elif opcao_att == 4:
-                                telefone_e = str(input("Número de Telefone: "))
-                                estudantes[chave][3] = telefone_e
-                            elif opcao_att == 5:
-                                email_e = str(input("Email: "))
-                                estudantes[chave][4] = email_e
-                            elif opcao_att == 6:
-                                nome_e = str(input("Nome: "))
-                                data_nasc_e = str(input("Data de Nascimento: "))
-                                cpf_e = str(input("CPF: "))
-                                telefone_e = str(input("Número de Telefone: "))
-                                email_e = str(input("Email: "))
+                    opcao_att = int(input("Qual informação deseja atualizar? "))
 
-                                estudantes = {cpf_e: [nome_e, data_nasc_e, telefone_e, email_e]}
-                            elif opcao_att == 7:
-                                voltar = True
-                                break
-                        
+                    if opcao_att == 1:
+                        limpar_tela()
+                        estudantes[cpf_att_e][0] = input("Novo nome: ")
+
+                    elif opcao_att == 2:
+                        limpar_tela()
+                        estudantes[cpf_att_e][1] = input("Nova data de nascimento: ")
+
+                    elif opcao_att == 4:
+                        limpar_tela()
+                        estudantes[cpf_att_e][2] = input("Novo telefone: ")
+
+                        while not telefone_e.isdigit() or len(telefone_e) != 9:
+                            telefone_e = str(input("Número de Telefone inválido. Digite novamente: "))   
+
+                    elif opcao_att == 5:
+                        limpar_tela()
+                        estudantes[cpf_att_e][3] = input("Novo email: ")
+
+                    elif opcao_att == 3:
+                        limpar_tela()
+                        novo_cpf = input("Novo CPF: ")
+
+                        while not novo_cpf.isdigit() or len(novo_cpf) != 11:
+                            novo_cpf = input("CPF inválido. Digite novamente: ")
+                            
+                        if novo_cpf in estudantes and novo_cpf != cpf_att_e:
+                            print("CPF já cadastrado!")
+                            time.sleep(2)
                         else:
-                            print("CPF NÃO ENCONTRADO!!!")
+                            del estudantes[cpf_att_e]
+                            estudantes[novo_cpf] = [nome, data, telefone, email]
 
-                    if voltar == True:
-                        break
-                    
+                    elif opcao_att == 6:
+                        limpar_tela()
+
+                        nome = input("Nome: ")
+                        data = input("Data de nascimento: ")
+                        novo_cpf = input("CPF: ")
+                        telefone = input("Telefone: ")
+                        email = input("Email: ")
+
+                        del estudantes[cpf_att_e]
+                        estudantes[novo_cpf] = [nome, data, telefone, email]
+
+                    print("Cadastro atualizado com sucesso!")
+                    time.sleep(2)
+
+                else:
+                    print("CPF não encontrado!")
+                                
             
             elif opcao_e == 4:
+                limpar_tela()
                 deletar_e = input("Informe o CPF do usuário: ")
 
                 if deletar_e in estudantes:
                     del estudantes[deletar_e]
                     print("Estudante removido com sucesso!")
                 else:
-                    print("CPF não encontrado.")
+                    print("CPF não encontrado !")
                 
 
-        elif opcao == 5:
-            if voltar == True:
+            elif opcao_e == 5:
                 break
 
 
     if opcao == 2:
-        print("==" * 21)
-        print("|            MÓDULO DOS GASTOS           |")
-        print("==" * 21)
-        print("|           EM DESENVOLVIMENTO           |")
-        print("==" * 21)
-        print()
+        while True:
+            print("==" * 21)
+            print("|            MÓDULO DOS GASTOS           |")
+            print("==" * 21)
+            print("|  1. CADASTRAR GASTO                    |")
+            print("|  2. LISTAR GASTOS                      |")
+            print("|  3. ATUALIZAR GASTO                    |")
+            print("|  4. DELETAR GASTO                      |")
+            print("|  5. VOLTAR                             |")
+            print("==" * 21)
+            print()
+
+            opcao_g = int(input("SELECIONE UMA DAS OPÇÕES ACIMA: "))
+
 
     elif opcao == 3:
         print("==" * 21)
@@ -162,5 +211,5 @@ while True:
         print("==" * 21)
         print()
 
-    else:
+    elif opcao == 6:
         break
