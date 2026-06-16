@@ -11,6 +11,38 @@ contas = {'1':["Conta de Luz","180","30/06/2026","PENDENTE"]}
 id_gasto = 2 
 id_conta = 2
 
+#===================================
+#CARREGAR ESTUDANTES
+try:
+    arq_estudantes = open("estudantes.dat", "rb")
+    estudantes = pickle.load(arq_estudantes)
+    arq_estudantes.close()
+except:
+    arq_estudantes = open("estudantes.dat", "wb")
+    arq_estudantes.close()
+
+#====================================
+#====================================
+#CARREGAR GASTOS
+try:
+    arq_gastos = open("gastos.dat", "rb")
+    gastos = pickle.load(arq_gastos)
+    arq_gastos.close()
+except:
+    arq_gastos = open("gastos.dat", "wb")
+    arq_gastos.close()
+#=====================================
+#=====================================
+#CARREGAR CONTAS
+try:
+    arq_contas = open("contas.dat", "rb")
+    contas = pickle.load(arq_contas)
+    arq_contas.close()
+except:
+    arq_contas = open("contas.dat", "wb")
+    arq_contas.close()
+#======================================
+
 while True:
     limpar_tela()
 
@@ -69,6 +101,10 @@ while True:
                         telefone_e, 
                         email_e]
                     
+                    arq_estudantes = open("estudantes.dat", "wb")
+                    pickle.dump(estudantes, arq_estudantes)
+                    arq_estudantes.close()
+
                     print("Estudante cadastrado com sucesso!")
                     time.sleep(2)
 
@@ -159,6 +195,10 @@ while True:
                         del estudantes[cpf_att_e]
                         estudantes[novo_cpf] = [nome, data, telefone, email]
 
+                    arqEstudantes = open("estudantes.dat", "wb")
+                    pickle.dump(estudantes, arqEstudantes)
+                    arqEstudantes.close()
+
                     print("Cadastro atualizado com sucesso!")
                     time.sleep(2)
 
@@ -175,14 +215,17 @@ while True:
 
                 if deletar_e in estudantes:
                     del estudantes[deletar_e]
+
+                    arqEstudantes = open("estudantes.dat", "wb")
+                    pickle.dump(estudantes, arqEstudantes)
+                    arqEstudantes.close()
+
                     print("Estudante removido com sucesso!")
                 else:
                     print("CPF não encontrado !")
-                
 
             elif opcao_e == 5:
                 break
-
 
     if opcao == 2:
         while True:
@@ -214,6 +257,11 @@ while True:
                     responsavel_g,
                     data_g
                 ]
+
+
+                arq_gastos = open("gastos.dat", "wb")
+                pickle.dump(gastos, arq_gastos)
+                arq_gastos.close()
 
                 print(f"Gasto cadastrado com ID {id_gasto}!")
 
@@ -292,6 +340,11 @@ while True:
 
                     elif opcao_att_g == 6:
                         continue
+                    
+
+                    arq_gastos = open("gastos.dat", "wb")
+                    pickle.dump(gastos, arq_gastos)
+                    arq_gastos.close()
 
                     print("Gasto atualizado com sucesso!")
 
@@ -307,6 +360,11 @@ while True:
 
                 if deletar_g in gastos:
                     del gastos[deletar_g]
+
+                    arq_gastos = open("gastos.dat", "wb")
+                    pickle.dump(gastos, arq_gastos)
+                    arq_gastos.close()
+
                     print("Gasto removido com sucesso!")
 
                 else:
@@ -350,6 +408,10 @@ while True:
                     "PENDENTE"
                 ]
 
+                arq_contas = open("contas.dat", "wb")
+                pickle.dump(contas, arq_contas)
+                arq_contas.close()
+
                 print(f"Conta cadastrada com ID {id_conta}!")
 
                 id_conta += 1
@@ -370,10 +432,10 @@ while True:
                         print("=" * 42)
 
                         print(f"| ID: {str(id_c):<34} |")
-                        print(f"| Conta: {dados[0][:28]:<30} |")
-                        print(f"| Valor: R$ {str(dados[1]):<25} |")
-                        print(f"| Vencimento: {dados[2]:<24} |")
-                        print(f"| Status: {dados[3]:<29} |")
+                        print(f"| Conta: {dados[0][:28]:<31} |")
+                        print(f"| Valor: R$ {str(dados[1]):<28} |")
+                        print(f"| Vencimento: {dados[2]:<26} |")
+                        print(f"| Status: {dados[3]:<30} |")
 
                         print("=" * 42)
 
@@ -428,6 +490,9 @@ while True:
                     elif opcao_att_c == 6:
                         continue
 
+                    arq_contas = open("contas.dat", "wb")
+                    pickle.dump(contas, arq_contas)
+                    arq_contas.close()
                     print("Conta atualizada com sucesso!")
 
                 else:
@@ -442,6 +507,11 @@ while True:
 
                 if deletar_c in contas:
                     del contas[deletar_c]
+
+                    arq_contas = open("contas.dat", "wb")
+                    pickle.dump(contas, arq_contas)
+                    arq_contas.close()
+
                     print("Conta removida com sucesso!")
                 else:
                     print("ID não encontrado!")
@@ -456,6 +526,11 @@ while True:
 
                 if id_pagar_c in contas:
                     contas[id_pagar_c][3] = "PAGA"
+
+                    arq_contas = open("contas.dat", "wb")
+                    pickle.dump(contas, arq_contas)
+                    arq_contas.close()
+
                     print("Conta marcada como paga!")
                 else:
                     print("ID não encontrado!")
