@@ -4,6 +4,7 @@ from persistencia import carregar_arquivo
 from estudantes import menu_estudantes
 from gastos import menu_gastos
 from contas import menu_contas
+from relatorios import menu_relatorios
 
 
 estudantes = carregar_arquivo("estudantes.dat")
@@ -43,8 +44,7 @@ def menu_principal():
             menu_contas(contas)
 
         elif opcao == 4:
-            print("EM ANDAMENTO")
-            esperar()
+            menu_relatorios(estudantes, gastos, contas)
 
         elif opcao == 5:
             print("EM ANDAMENTO")
