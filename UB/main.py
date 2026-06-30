@@ -5,6 +5,7 @@ from estudantes import menu_estudantes
 from gastos import menu_gastos
 from contas import menu_contas
 from relatorios import menu_relatorios
+from sobre_sistema import sobre_sistema
 
 
 estudantes = carregar_arquivo("estudantes.dat")
@@ -47,7 +48,7 @@ def menu_principal():
             menu_relatorios(estudantes, gastos, contas)
 
         elif opcao == 5:
-            print("EM ANDAMENTO")
+            sobre_sistema()
             esperar()
 
         elif opcao == 6:
